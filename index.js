@@ -25,17 +25,26 @@ app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
 });
 
+app.get("/api/this-is-not-a-date", function (req, res) {
+  let date = Date.now();
+
+  res.json({
+    unix: date,
+    utc: new Date(date).toUTCString(),
+  });
+});
+
 app.get("/api/:date?", function (req, res) {
   const data = req.params;
   const date = data?.date;
 
-  console.log("type:", typeof(date));
+  console.log("type:", typeof date);
 
   let utc;
   let unix;
   let dateNow = Date.now();
 
-  console.log(":Date?"+ "-user provided date-"+ date);
+  console.log(":Date?" + "-user provided date- " + date);
 
   if (!date) {
     utc = new Date(dateNow).toUTCString();
@@ -46,24 +55,22 @@ app.get("/api/:date?", function (req, res) {
     });
   }
 
-  try{
-      if(validateUTCDate(date)) {
-          utc = (new Date(date)).toUTCString();
-          unix = (new Date(date)).getTime();
-      }
-      else if ((new Date(Number(date))).getTime() > 0) {
-          utc = (new Date(Number(date))).toUTCString()
-          unix = (new Date(Number(date))).getTime()
-      }
-      else {
-          return res.status(StatusCodes.BAD_REQUEST).json({
-            error: "Invalid Date",
-          });
-      }
-  } catch (err) {
+  try {
+    if (validateUTCDate(date)) {
+      utc = new Date(date).toUTCString();
+      unix = new Date(date).getTime();
+    } else if (new Date(Number(date)).getTime() > 0) {
+      utc = new Date(Number(date)).toUTCString();
+      unix = new Date(Number(date)).getTime();
+    } else {
       return res.status(StatusCodes.BAD_REQUEST).json({
         error: "Invalid Date",
       });
+    }
+  } catch (err) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      error: "Invalid Date",
+    });
   }
 
   function validateUTCDate(dateString) {
@@ -81,7 +88,6 @@ app.get("/api/:date?", function (req, res) {
   });
 });
 
-
 // const localport = 3000;
 // const PORT = process.env.PORT;
 
@@ -89,5 +95,3 @@ app.get("/api/:date?", function (req, res) {
 var listener = app.listen(process.env.PORT, function () {
   console.log("Your app is listening on port " + listener.address().port);
 });
-
-
