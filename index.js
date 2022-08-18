@@ -25,14 +25,14 @@ app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
 });
 
-app.get("/api/this-is-not-a-date", function (req, res) {
-  let date = Date.now();
+// app.get("/api/this-is-not-a-date", function (req, res) {
+//   let date = Date.now();
 
-  res.json({
-    unix: date,
-    utc: new Date(date).toUTCString(),
-  });
-});
+//   res.json({
+//     unix: date,
+//     utc: new Date(date).toUTCString(),
+//   });
+// });
 
 app.get("/api/:date?", function (req, res) {
   const data = req.params;
