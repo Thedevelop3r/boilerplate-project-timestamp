@@ -25,15 +25,6 @@ app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
 });
 
-// app.get("/api/this-is-not-a-date", function (req, res) {
-//   let date = Date.now();
-
-//   res.json({
-//     unix: date,
-//     utc: new Date(date).toUTCString(),
-//   });
-// });
-
 app.get("/api/:date?", function (req, res) {
   const data = req.params;
   const date = data?.date;
@@ -63,12 +54,12 @@ app.get("/api/:date?", function (req, res) {
       utc = new Date(Number(date)).toUTCString();
       unix = new Date(Number(date)).getTime();
     } else {
-      return res.status(StatusCodes.BAD_REQUEST).json({
+      return res.status(StatusCodes.OK).json({
         error: "Invalid Date",
       });
     }
   } catch (err) {
-    return res.status(StatusCodes.BAD_REQUEST).json({
+    return res.status(StatusCodes.OK).json({
       error: "Invalid Date",
     });
   }
