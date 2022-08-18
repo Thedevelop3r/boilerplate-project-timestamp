@@ -82,11 +82,11 @@ app.get("/api/:date?", function (req, res) {
 });
 
 
-const localport = 3000;
-const PORT = process.env.PORT;
+// const localport = 3000;
+// const PORT = process.env.PORT;
 
 // listen for requests :)
-var listener = app.listen(localport, function () {
+var listener = app.listen(process.env.PORT, function () {
   console.log("Your app is listening on port " + listener.address().port);
 });
 
