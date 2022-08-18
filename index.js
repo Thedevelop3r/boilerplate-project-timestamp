@@ -46,6 +46,22 @@ app.get("/api/:date?", function (req, res) {
     });
   }
 
+    let adate = "05 October 2011, GMT";
+
+    if (date.includes(" ")) {
+      
+      let unix = Date.parse(date);
+      let utc = new Date(unix).toUTCString();
+      
+      return res.status(StatusCodes.OK).json({
+        unix,
+        utc,
+      });
+
+    }
+
+ 
+
   try {
     if (validateUTCDate(date)) {
       utc = new Date(date).toUTCString();
